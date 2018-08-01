@@ -1,0 +1,4 @@
+RABBIT_MQ_URL=amqp://rabbitmq:5672
+WORKER_QUEUE=worker_queue
+COMPARATOR_QUEUE=comparator_queue
+RABBIT_RECONNECT_INTERVAL=8000

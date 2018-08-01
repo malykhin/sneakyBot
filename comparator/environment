@@ -1,0 +1,7 @@
+RABBIT_MQ_URL=amqp://rabbitmq:5672
+MONGO_URL=mongodb://mongo:27017
+RESPONSE_QUEUE=response_queue
+COMPARATOR_QUEUE=comparator_queue
+RABBIT_RECONNECT_INTERVAL=8000
+NOTIFICATIONS_CHANGES_QUEUE=notifications_changes
+DB_NAME=sneaky

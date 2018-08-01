@@ -1,0 +1,76 @@
+version: "3"
+
+services:
+  bot:
+    build:
+      context: ./
+      dockerfile: ./bot/Dockerfile
+    command: bash -c "npm run start:bot:dev"
+    restart: on-failure
+    env_file:
+      - ./bot/environment
+    volumes:
+      - ./bot/src:/usr/src/app/bot/src:cached
+      - ./common:/usr/src/app/common:cached
+    links:
+      - rabbitmq
+      - mongo
+    
+  planner:
+    build:
+      context: ./
+      dockerfile: ./planner/Dockerfile
+    command: bash -c "npm run start:planner:dev"
+    restart: on-failure
+    env_file:
+      - ./planner/environment
+    volumes:
+      - ./planner/src:/usr/src/app/planner/src:cached
+      - ./common:/usr/src/app/common:cached
+    links:
+      - rabbitmq
+      - mongo
+      
+  crawler:
+    build:
+      context: ./
+      dockerfile: ./crawler/Dockerfile
+    command: bash -c "npm run start:crawler:dev"
+    restart: on-failure
+    env_file:
+      - ./crawler/environment
+    volumes:
+      - ./crawler/src:/usr/src/app/crawler/src:cached
+      - ./common:/usr/src/app/common:cached
+    links:
+      - rabbitmq
+
+  comparator:
+    build:
+      context: ./
+      dockerfile: ./comparator/Dockerfile
+    command: bash -c "npm run start:comparator:dev"
+    restart: on-failure
+    env_file:
+      - ./comparator/environment
+    volumes:
+      - ./comparator/src:/usr/src/app/comparator/src:cached
+      - ./common:/usr/src/app/common:cached
+    links:
+      - rabbitmq
+      - mongo
+
+  mongo:
+    image: "mongo:latest"
+    logging:
+      driver: none
+    ports:
+      - 27017:27017
+
+  rabbitmq:
+    image: "rabbitmq:management"
+    logging:
+      driver: none
+    ports:
+      - "5672:5672"
+      - "15672:15672"
