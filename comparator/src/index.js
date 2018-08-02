@@ -8,7 +8,7 @@ const subscribeToComparatorQueue = async () => {
   try {
     const consumeEmmitter = await queue.consume(config.comparatorQueue)
 
-    consumeEmmitter.on('data', async message => {
+    consumeEmmitter.on('data', async (message, ack) => {
       const { error, hash, chatId } = JSON.parse(message)
 
       if (error) {
@@ -26,6 +26,7 @@ const subscribeToComparatorQueue = async () => {
       if (!previous) {
         await Cache.create({chatId, hash})
       }
+      ack()
     })
 
     consumeEmmitter.on('error', error => console.error(error))

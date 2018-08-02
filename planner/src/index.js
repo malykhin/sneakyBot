@@ -20,7 +20,7 @@ const subscribeToNotifications = async () => {
         notification = await Notification.findOne({chatId}).select('url selector chatId -_id')
       }
       if ( utils.isUrl(notification.url) && notification.selector ) {
-        await queue.produce(config.workerQueue, JSON.stringify(notification))
+        await queue.produce(config.workerQueue, JSON.stringify(notification), true, true)
       }
     })
 
@@ -41,7 +41,7 @@ const pushToQueue = async () => {
   const notifications = await Notification.find(query).select('url selector chatId -_id')
   for (let notification of notifications) {
     if ( utils.isUrl(notification.url) ) {
-      await queue.produce(config.workerQueue, JSON.stringify(notification))
+      await queue.produce(config.workerQueue, JSON.stringify(notification), true, true)
     }
   }
 }

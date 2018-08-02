@@ -3,29 +3,30 @@ const EventEmitter = require('events')
 
 const config = require('./config')
 
-const produce = async (queue, message) => {
+const produce = async (queue, message, durable = false, persistent = false) => {
   const connect = await amqp.connect(config.rabbitMqUrl)
   const channel = await connect.createChannel()
 
-  await channel.assertQueue(queue)
-  await channel.sendToQueue(queue, Buffer.from(message))
+  await channel.assertQueue(queue, { durable })
+  await channel.sendToQueue(queue, Buffer.from(message), { persistent })
 
   console.log('Message produced: ', queue, message)
 }
 
-const consume = async (queue, isNoAck = false) => {
+const consume = async (queue, isNoAck = false, durable = false, prefetch = null) => {
   const connect = await amqp.connect(config.rabbitMqUrl)
   const channel = await connect.createChannel()
 
-  await channel.assertQueue(queue)
+  await channel.assertQueue(queue, { durable })
+
+  if (prefetch) {
+    channel.prefetch(prefetch)
+  }
   const consumeEmitter = new EventEmitter()
   try {
     channel.consume(queue, message => {
       if (message !== null) {
-        consumeEmitter.emit('data', message.content.toString())
-        if (!isNoAck) {
-          channel.ack(message)
-        }
+        consumeEmitter.emit('data', message.content.toString(), () => channel.ack(message))
       } else {
         const error = new Error('NullMessageException')
         consumeEmitter.emit('error', error)

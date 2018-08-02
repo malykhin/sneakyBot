@@ -61,6 +61,7 @@ const url = async ctx => {
 
     if (!utils.isUrl(url)) {
       ctx.reply(messages.invalidUrl)
+      return
     }
     await Notification.findOneAndUpdate({chatId}, {$set: {url}})
     const message = `${qMessages.urlChanged}/${chatId}` 

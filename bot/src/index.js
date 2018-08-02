@@ -29,7 +29,7 @@ const subscribeToResponseQueue = async () => {
   try {
     const consumeEmmitter = await queue.consume(config.responseQueue)
 
-    consumeEmmitter.on('data', async message => {
+    consumeEmmitter.on('data', async (message, ack) => {
       const messageArr = message.split('/')
       const type = messageArr[0]
       const chatId = messageArr[1]
@@ -40,6 +40,7 @@ const subscribeToResponseQueue = async () => {
       if (type === qMessages.fetchError) {
         bot.telegram.sendMessage(chatId, messages.fetchError)
       }
+      ack()
     })
     consumeEmmitter.on('error', error => console.error(error))
     return true
