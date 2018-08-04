@@ -13,9 +13,6 @@ services:
     volumes:
       - ./bot/src:/usr/src/app/service/src:cached
       - ./common:/usr/src/app/common:cached
-    links:
-      - rabbitmq
-      - mongo
     
   planner:
     build:
@@ -29,9 +26,6 @@ services:
     volumes:
       - ./planner/src:/usr/src/app/service/src:cached
       - ./common:/usr/src/app/common:cached
-    links:
-      - rabbitmq
-      - mongo
       
   crawler:
     build:
@@ -45,8 +39,6 @@ services:
     volumes:
       - ./crawler/src:/usr/src/app/service/src:cached
       - ./common:/usr/src/app/common:cached
-    links:
-      - rabbitmq
 
   comparator:
     build:
@@ -60,9 +52,6 @@ services:
     volumes:
       - ./comparator/src:/usr/src/app/service/src:cached
       - ./common:/usr/src/app/common:cached
-    links:
-      - rabbitmq
-      - mongo
 
   mongo:
     image: "mongo:latest"
