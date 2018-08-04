@@ -7,14 +7,8 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "start:bot": "node ./bot/src/index.js",
-    "start:bot:dev": "nodemon ./bot/src/index.js",
-    "start:planner": "node ./planner/src/index.js",
-    "start:planner:dev": "nodemon ./planner/src/index.js",
-    "start:crawler": "node ./crawler/src/index.js",
-    "start:crawler:dev": "nodemon ./crawler/src/index.js",
-    "start:comparator": "node ./comparator/src/index.js",
-    "start:comparator:dev": "nodemon ./comparator/src/index.js",
+    "start": "node ./service/src/index.js",
+    "start:dev": "nodemon ./service/src/index.js",
     "check": "eslint ./",
     "fix": "eslint --fix ./"
   },

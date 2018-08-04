@@ -1,8 +1,11 @@
 FROM node:latest
+
+ARG service_src
+
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
-COPY ./planner/src ./planner/src
+COPY ${service_src} ./service/src
 COPY ./common ./common
 EXPOSE 80
-CMD [ "npm", "run", "start:planner" ]
+CMD [ "npm", "run", "start" ]
