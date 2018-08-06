@@ -2,6 +2,7 @@
 Node.js Telegram bot microservices example.
 
 This bot scrapes selected url in some intrval, check it content and notify user for changes.
+Read more about project: https://medium.com/@denismalykhin/building-microservices-for-telegram-bot-using-node-js-rabbitmq-mongodb-and-docker-from-scratch-12640d172b8f
 
 ## How to run
 
