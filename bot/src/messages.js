@@ -40,7 +40,7 @@ const changeDetected = `
 Change in selected contend detected!
 `
 
-const invalidUrl  = `
+const invalidUrl = `
 Please, enter valid url
 `
 
@@ -54,5 +54,5 @@ module.exports = {
   notExists,
   fetchError,
   changeDetected,
-  invalidUrl
+  invalidUrl,
 }

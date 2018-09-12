@@ -5,16 +5,9 @@ const Telegraf = require('telegraf')
 require('../../common/db')
 const queue = require('../../common/queue')
 const qMessages = require('../../common/qMessages')
-const {
-  start,
-  help,
-  url,
-  selector,
-  stop
-} = require('./botHandlers')
+const { start, help, url, selector, stop } = require('./botHandlers')
 const config = require('./config')
 const messages = require('./messages')
-
 
 const bot = new Telegraf(config.botToken)
 
@@ -29,7 +22,7 @@ const subscribeToResponseQueue = async () => {
   try {
     const consumeEmmitter = await queue.consume(config.responseQueue)
 
-    consumeEmmitter.on('data', async (message, ack) => {
+    consumeEmmitter.on('data', (message, ack) => {
       const messageArr = message.split('/')
       const type = messageArr[0]
       const chatId = messageArr[1]
@@ -42,7 +35,7 @@ const subscribeToResponseQueue = async () => {
       }
       ack()
     })
-    consumeEmmitter.on('error', error => console.error(error))
+    consumeEmmitter.on('error', (error) => console.error(error))
     return true
   } catch (error) {
     console.error(error)
@@ -50,12 +43,11 @@ const subscribeToResponseQueue = async () => {
   }
 }
 
-const intervalId = setInterval( () => {
-  subscribeToResponseQueue()
-    .then(isConnected => {
-      if (isConnected) {
-        clearInterval(intervalId)
-        console.log('Bot is up')
-      }
-    })
+const intervalId = setInterval(() => {
+  subscribeToResponseQueue().then((isConnected) => {
+    if (isConnected) {
+      clearInterval(intervalId)
+      console.log('Bot is up')
+    }
+  })
 }, config.rabbitReconnectInterval)
