@@ -19,7 +19,7 @@
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^6.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "mongoose": "^5.2.5",
+    "mongoose": "^5.13.15",
     "telegraf": "^3.22.1"
   },
   "devDependencies": {
